@@ -2238,10 +2238,6 @@ class TestQuantizedConv(unittest.TestCase):
         Y_q = qconv_fn(
             X_q,
             W_prepack,
-            strides,
-            pads,
-            dilations,
-            groups,
             Y_scale,
             Y_zero_point,
         )
@@ -2282,10 +2278,10 @@ class TestQuantizedConv(unittest.TestCase):
            Y_scale=st.floats(4.2, 5.6),
            Y_zero_point=st.integers(0, 4),
            use_bias=st.booleans(),
-           use_relu=st.booleans(),
+           use_relu=st.sampled_from([False]),
            use_channelwise=st.booleans(),
            qengine=st.sampled_from(("qnnpack", "fbgemm")))
-    def test_qconv(
+    def test_qconv2d(
             self,
             batch_size,
             input_channels_per_group,
